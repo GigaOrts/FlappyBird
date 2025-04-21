@@ -2,15 +2,28 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    private Rigidbody2D body2D;
+    public Rigidbody2D Rigidbody => body2D;
+    public float force;
+    public float gravityAcceleration = 1;
+
     void Start()
     {
-        
+        body2D = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            body2D.linearVelocityY = 0;
+            body2D.AddForceY(force, ForceMode2D.Impulse);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        body2D.linearVelocityY -= gravityAcceleration;
     }
 }
