@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D body2D;
     public Rigidbody2D Rigidbody => body2D;
     public float force;
-    public float gravityAcceleration = 1;
+    private bool freezed;
 
     void Start()
     {
@@ -15,15 +15,24 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (freezed)
+            return;
+
+        if (Input.GetMouseButtonDown(0))
         {
             body2D.linearVelocityY = 0;
             body2D.AddForceY(force, ForceMode2D.Impulse);
         }
     }
 
-    private void FixedUpdate()
+    public void Freeze()
     {
-        body2D.linearVelocityY -= gravityAcceleration;
+        body2D.bodyType = RigidbodyType2D.Kinematic;
+        body2D.linearVelocityY = 0;
+    }
+
+    public void Unfreeze()
+    {
+        body2D.bodyType = RigidbodyType2D.Dynamic;
     }
 }
